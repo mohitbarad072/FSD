@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎯 Super Fun Calculator for Kids!</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎯 Super Fun Calculator</h1>
+            <p>Let's do some awesome math together! 🚀</p>
+        </header>
+
+        <div class="calculator-card">
+            <form id="calculatorForm">
+                <div class="input-group">
+                    <label for="num1">First Number:</label>
+                    <input type="text" id="num1" name="num1" placeholder="Enter first number" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="num2">Second Number:</label>
+                    <input type="text" id="num2" name="num2" placeholder="Enter second number" required>
+                </div>
+
+                <div class="operation-buttons">
+                    <h3>Choose Your Operation:</h3>
+                    <div class="button-grid">
+                        <button type="button" class="operation-btn" data-operation="add">
+                            ➕ Add
+                        </button>
+                        <button type="button" class="operation-btn" data-operation="subtract">
+                            ➖ Subtract
+                        </button>
+                        <button type="button" class="operation-btn" data-operation="multiply">
+                            ✖️ Multiply
+                        </button>
+                        <button type="button" class="operation-btn" data-operation="divide">
+                            ➗ Divide
+                        </button>
+                    </div>
+                </div>
+
+                <input type="hidden" id="selectedOperation" name="operation" value="">
+                
+                <button type="submit" id="calculateBtn" class="calculate-btn" disabled>
+                    🎯 Calculate!
+                </button>
+            </form>
+
+            <div id="result" class="result-section">
+                <div id="resultContent"></div>
+            </div>
+
+            <div id="error" class="error-section">
+                <div id="errorContent"></div>
+            </div>
+        </div>
+
+        <div class="fun-facts">
+            <h3>🌟 Fun Math Facts!</h3>
+            <div class="fact-card">
+                <p>Did you know? Adding zero to any number gives you the same number!</p>
+            </div>
+            <div class="fact-card">
+                <p>Multiplying by 1 keeps the number the same - it's like a magic trick!</p>
+            </div>
+            <div class="fact-card">
+                <p>Any number divided by itself equals 1 (except zero)!</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
