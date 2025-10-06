@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>InternalExam - Dashboard</title>
+    <link rel="stylesheet" href="/styles-auth.css" />
+  </head>
+  <body>
+    <div class="nav">
+      <strong>InternalExam</strong>
+      <a class="link" href="/auth.html">Auth</a>
+      <a class="link" href="/dashboard.html">Dashboard</a>
+      <span class="spacer"></span>
+      <button class="ghost" id="logoutBtn">Logout</button>
+    </div>
+    <div class="container">
+      <div class="card">
+        <div class="title">Dashboard</div>
+        <div class="subtitle">Authenticated user profile</div>
+
+        <div id="content" class="row">
+          Loading...
+        </div>
+        <div class="error" id="error"></div>
+      </div>
+    </div>
+
+    <script src="/dashboard.js"></script>
+  </body>
+  </html>
+
+
