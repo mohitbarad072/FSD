@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tuition Class Admin Panel</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-graduation-cap"></i> Tuition Class Admin Panel</h1>
+            <div class="stats">
+                <div class="stat-card">
+                    <i class="fas fa-users"></i>
+                    <div>
+                        <span id="totalStudents">0</span>
+                        <small>Total Students</small>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-user-check"></i>
+                    <div>
+                        <span id="activeStudents">0</span>
+                        <small>Active Students</small>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-dollar-sign"></i>
+                    <div>
+                        <span id="totalFees">$0</span>
+                        <small>Total Fees</small>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <div class="controls">
+                <button id="addStudentBtn" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Add New Student
+                </button>
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Search students...">
+                    <i class="fas fa-search"></i>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table id="studentsTable">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Grade</th>
+                            <th>Subjects</th>
+                            <th>Fee</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="studentsTableBody">
+                        <!-- Students will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add/Edit Student Modal -->
+    <div id="studentModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Add New Student</h2>
+                <span class="close">&times;</span>
+            </div>
+            <form id="studentForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="name">Full Name *</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="phone">Phone *</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="grade">Grade *</label>
+                        <select id="grade" name="grade" required>
+                            <option value="">Select Grade</option>
+                            <option value="1st">1st Grade</option>
+                            <option value="2nd">2nd Grade</option>
+                            <option value="3rd">3rd Grade</option>
+                            <option value="4th">4th Grade</option>
+                            <option value="5th">5th Grade</option>
+                            <option value="6th">6th Grade</option>
+                            <option value="7th">7th Grade</option>
+                            <option value="8th">8th Grade</option>
+                            <option value="9th">9th Grade</option>
+                            <option value="10th">10th Grade</option>
+                            <option value="11th">11th Grade</option>
+                            <option value="12th">12th Grade</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="subjects">Subjects *</label>
+                        <div class="subjects-container">
+                            <div class="subject-checkboxes">
+                                <label><input type="checkbox" value="Mathematics"> Mathematics</label>
+                                <label><input type="checkbox" value="Science"> Science</label>
+                                <label><input type="checkbox" value="English"> English</label>
+                                <label><input type="checkbox" value="History"> History</label>
+                                <label><input type="checkbox" value="Geography"> Geography</label>
+                                <label><input type="checkbox" value="Physics"> Physics</label>
+                                <label><input type="checkbox" value="Chemistry"> Chemistry</label>
+                                <label><input type="checkbox" value="Biology"> Biology</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="fee">Monthly Fee ($) *</label>
+                        <input type="number" id="fee" name="fee" min="0" step="0.01" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="address">Address *</label>
+                        <textarea id="address" name="address" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="status">Status</label>
+                        <select id="status" name="status">
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                            <option value="completed">Completed</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="parentName">Parent/Guardian Name *</label>
+                        <input type="text" id="parentName" name="parentName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="parentPhone">Parent/Guardian Phone *</label>
+                        <input type="tel" id="parentPhone" name="parentPhone" required>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Student</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteModal" class="modal">
+        <div class="modal-content delete-modal">
+            <div class="modal-header">
+                <h2>Confirm Delete</h2>
+                <span class="close" onclick="closeDeleteModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this student? This action cannot be undone.</p>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeDeleteModal()">Cancel</button>
+                    <button type="button" class="btn btn-danger" onclick="confirmDelete()">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
