@@ -1,0 +1,16 @@
+{
+  "name": "practical-todo-list",
+  "version": "1.0.0",
+  "description": "A simple React To-Do List app using hooks.",
+  "main": "app.js",
+  "scripts": {
+    "start": "live-server --open=index.html"
+  },
+  "dependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  }
+} 
