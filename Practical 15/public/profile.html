@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Library Portal</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <a href="/dashboard">📚 Library Portal</a>
+            </div>
+            <nav class="nav">
+                <a href="/dashboard" class="nav-link">Dashboard</a>
+                <a href="/profile" class="nav-link active">Profile</a>
+                <button id="logoutBtn" class="btn btn-outline">Logout</button>
+            </nav>
+        </header>
+        
+        <main class="main-content">
+            <div class="profile-container">
+                <div class="profile-header">
+                    <h2>User Profile</h2>
+                    <p>Manage your account information and view session details</p>
+                </div>
+                
+                <div class="profile-grid">
+                    <div class="profile-card">
+                        <h3>Personal Information</h3>
+                        <div class="profile-info">
+                            <div class="info-item">
+                                <label>Full Name:</label>
+                                <span id="userName">Loading...</span>
+                            </div>
+                            <div class="info-item">
+                                <label>Username:</label>
+                                <span id="userUsername">Loading...</span>
+                            </div>
+                            <div class="info-item">
+                                <label>Email:</label>
+                                <span id="userEmail">Loading...</span>
+                            </div>
+                            <div class="info-item">
+                                <label>User ID:</label>
+                                <span id="userId">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-card">
+                        <h3>Session Information</h3>
+                        <div class="session-info">
+                            <div class="info-item">
+                                <label>Login Time:</label>
+                                <span id="loginTime">Loading...</span>
+                            </div>
+                            <div class="info-item">
+                                <label>Session ID:</label>
+                                <span id="sessionId">Loading...</span>
+                            </div>
+                            <div class="info-item">
+                                <label>Session Duration:</label>
+                                <span id="sessionDuration">Calculating...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="profile-actions">
+                    <button class="btn btn-primary" onclick="refreshSessionInfo()">Refresh Session Info</button>
+                    <button class="btn btn-secondary" onclick="window.location.href='/dashboard'">Back to Dashboard</button>
+                </div>
+            </div>
+        </main>
+        
+        <footer class="footer">
+            <p>&copy; 2024 Library Portal. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        let sessionStartTime;
+        
+        // Load profile information
+        async function loadProfileInfo() {
+            try {
+                const response = await fetch('/api/session-info');
+                const data = await response.json();
+                
+                // Update user information
+                document.getElementById('userName').textContent = data.user.name;
+                document.getElementById('userUsername').textContent = data.user.username;
+                document.getElementById('userEmail').textContent = data.user.email;
+                document.getElementById('userId').textContent = data.user.id;
+                
+                // Update session information
+                const loginTime = new Date(data.session.loginTime);
+                sessionStartTime = loginTime;
+                document.getElementById('loginTime').textContent = loginTime.toLocaleString();
+                document.getElementById('sessionId').textContent = data.session.sessionId;
+                
+                // Calculate session duration
+                updateSessionDuration();
+            } catch (error) {
+                console.error('Error loading profile info:', error);
+            }
+        }
+        
+        // Update session duration
+        function updateSessionDuration() {
+            if (sessionStartTime) {
+                const now = new Date();
+                const duration = now - sessionStartTime;
+                const hours = Math.floor(duration / (1000 * 60 * 60));
+                const minutes = Math.floor((duration % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((duration % (1000 * 60)) / 1000);
+                
+                document.getElementById('sessionDuration').textContent = 
+                    `${hours}h ${minutes}m ${seconds}s`;
+            }
+        }
+        
+        // Refresh session information
+        function refreshSessionInfo() {
+            loadProfileInfo();
+        }
+        
+        // Logout functionality
+        document.getElementById('logoutBtn').addEventListener('click', async () => {
+            try {
+                const response = await fetch('/api/logout', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert('Logged out successfully!');
+                    window.location.href = '/';
+                } else {
+                    alert('Logout failed');
+                }
+            } catch (error) {
+                alert('An error occurred during logout');
+                console.error('Logout error:', error);
+            }
+        });
+        
+        // Load profile info when page loads
+        loadProfileInfo();
+        
+        // Update session duration every second
+        setInterval(updateSessionDuration, 1000);
+    </script>
+</body>
+</html>

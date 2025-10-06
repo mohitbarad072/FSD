@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Library Portal</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <a href="/dashboard">📚 Library Portal</a>
+            </div>
+            <nav class="nav">
+                <a href="/dashboard" class="nav-link active">Dashboard</a>
+                <a href="/profile" class="nav-link">Profile</a>
+                <button id="logoutBtn" class="btn btn-outline">Logout</button>
+            </nav>
+        </header>
+        
+        <main class="main-content">
+            <div class="dashboard-container">
+                <div class="welcome-section">
+                    <h2>Welcome back, <span id="userName">User</span>!</h2>
+                    <p>Your library dashboard is ready. Explore your reading journey.</p>
+                </div>
+                
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <div class="card-icon">📚</div>
+                        <h3>My Books</h3>
+                        <p>View your borrowed books and reading history</p>
+                        <button class="btn btn-secondary">View Books</button>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <div class="card-icon">🔍</div>
+                        <h3>Search Library</h3>
+                        <p>Find new books and resources</p>
+                        <button class="btn btn-secondary">Search</button>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <div class="card-icon">⭐</div>
+                        <h3>Favorites</h3>
+                        <p>Your saved books and wishlist</p>
+                        <button class="btn btn-secondary">View Favorites</button>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <div class="card-icon">📊</div>
+                        <h3>Reading Stats</h3>
+                        <p>Track your reading progress and achievements</p>
+                        <button class="btn btn-secondary">View Stats</button>
+                    </div>
+                </div>
+                
+                <div class="session-info">
+                    <h3>Session Information</h3>
+                    <div class="session-details">
+                        <p><strong>Login Time:</strong> <span id="loginTime">Loading...</span></p>
+                        <p><strong>Session ID:</strong> <span id="sessionId">Loading...</span></p>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <footer class="footer">
+            <p>&copy; 2024 Library Portal. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Load session information
+        async function loadSessionInfo() {
+            try {
+                const response = await fetch('/api/session-info');
+                const data = await response.json();
+                
+                document.getElementById('userName').textContent = data.user.name;
+                
+                const loginTime = new Date(data.session.loginTime).toLocaleString();
+                document.getElementById('loginTime').textContent = loginTime;
+                document.getElementById('sessionId').textContent = data.session.sessionId;
+            } catch (error) {
+                console.error('Error loading session info:', error);
+            }
+        }
+        
+        // Logout functionality
+        document.getElementById('logoutBtn').addEventListener('click', async () => {
+            try {
+                const response = await fetch('/api/logout', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert('Logged out successfully!');
+                    window.location.href = '/';
+                } else {
+                    alert('Logout failed');
+                }
+            } catch (error) {
+                alert('An error occurred during logout');
+                console.error('Logout error:', error);
+            }
+        });
+        
+        // Load session info when page loads
+        loadSessionInfo();
+    </script>
+</body>
+</html>
